@@ -1,14 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.domain.services;
 
-/**
- *
- * @author Mat3o
- */
-public class PersonService {
+import app.domain.models.Person;
+import app.ports.PersonPort;
 
+public class PersonService {
+    private final PersonPort personPort;
+
+    public PersonService(PersonPort personPort) {
+        this.personPort = personPort;
+    }
+
+    public void registerPerson(Person person) {
+        personPort.savePerson(person);
+    }
 }

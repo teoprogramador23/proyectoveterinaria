@@ -1,14 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.domain.services;
 
-/**
- *
- * @author Mat3o
- */
-public class InvoiceService {
+import app.domain.models.Invoice;
+import app.ports.InvoicePort;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
+public class InvoiceService {
+    private final InvoicePort invoicePort;
+
+    public InvoiceService(InvoicePort invoicePort) {
+        this.invoicePort = invoicePort;
+    }
+
+    public void createInvoice(Invoice invoice) {
+        invoicePort.saveInvoice(invoice);
+    }
+
+    public List<Invoice> getAllInvoices() {
+        return invoicePort.getAllInvoices();
+    }
+
+    public Invoice getInvoiceById(long invoiceId) {
+        return invoicePort.findById(invoiceId);
+    }
 }

@@ -1,14 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.adapters.medicalorder;
 
-/**
- *
- * @author Mat3o
- */
-public class MedicalOrderAdapter {
+import app.domain.models.MedicalOrder;
+import app.ports.MedicalOrderPort;
+import java.util.List;
 
+public class MedicalOrderAdapter implements MedicalOrderPort {
+    private MedicalOrderRepository medicalOrderRepository;
+
+    @Override
+    public void saveMedicalOrder(MedicalOrder medicalOrder) {
+        MedicalOrderEntity entity = new MedicalOrderEntity(medicalOrder);
+        medicalOrderRepository.save(entity);
+        medicalOrder.setMedicalOrderId(entity.getMedicalOrderId());
+    }
+
+    @Override
+    public List<MedicalOrder> getAllMedicalOrders() {
+        return medicalOrderRepository.findAll().stream()
+                .map(MedicalOrderEntity::toModel)
+                .toList();
+    }
 }
+

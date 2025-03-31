@@ -1,14 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.controllers;
 
-/**
- *
- * @author Mat3o
- */
-public class PetController {
+import app.domain.models.Pet;
+import app.domain.services.PetService;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@RestController
+@RequestMapping("/pet")
+public class PetController {
+    private final PetService petService;
+
+    public PetController(PetService petService) {
+        this.petService = petService;
+    }
+
+    @PostMapping("/register")
+    public void registerPet(@RequestBody Pet pet) {
+        petService.registerPet(pet);
+    }
+
+    @GetMapping("/all")
+    public List<Pet> getAllPets() {
+        return petService.getAllPets();
+    }
 }

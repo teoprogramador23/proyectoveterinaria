@@ -1,14 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.adapters.pet;
 
-/**
- *
- * @author Mat3o
- */
-public class PetAdapter {
+import app.domain.models.Pet;
+import app.ports.PetPort;
+import java.util.List;
 
+public class PetAdapter implements PetPort {
+    private PetRepository petRepository;
+
+    @Override
+    public void savePet(Pet pet) {
+        PetEntity entity = new PetEntity(pet);
+        petRepository.save(entity);
+        pet.setPetId(entity.getPetId());
+    }
+
+    @Override
+    public List<Pet> getAllPets() {
+        return petRepository.findAll().stream()
+                .map(PetEntity::toModel)
+                .toList();
+    }
 }

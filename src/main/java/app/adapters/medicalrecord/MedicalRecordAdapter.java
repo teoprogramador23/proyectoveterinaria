@@ -1,14 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.adapters.medicalrecord;
 
-/**
- *
- * @author Mat3o
- */
-public class MedicalRecordAdapter {
+import app.domain.models.MedicalRecord;
+import app.ports.MedicalRecordPort;
+import java.util.List;
 
+public class MedicalRecordAdapter implements MedicalRecordPort {
+    private MedicalRecordRepository medicalRecordRepository;
+
+    @Override
+    public void saveMedicalRecord(MedicalRecord medicalRecord) {
+        MedicalRecordEntity entity = new MedicalRecordEntity(medicalRecord);
+        medicalRecordRepository.save(entity);
+        medicalRecord.setMedicalRecordId(entity.getMedicalRecordId());
+    }
+
+    @Override
+    public List<MedicalRecord> getAllMedicalRecords() {
+        return medicalRecordRepository.findAll().stream()
+                .map(MedicalRecordEntity::toModel)
+                .toList();
+    }
 }
+

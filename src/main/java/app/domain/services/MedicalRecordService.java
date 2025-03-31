@@ -1,14 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.domain.services;
 
-/**
- *
- * @author Mat3o
- */
-public class MedicalRecordService {
+import app.domain.models.MedicalRecord;
+import app.ports.MedicalRecordPort;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
+public class MedicalRecordService {
+    private final MedicalRecordPort medicalRecordPort;
+
+    public MedicalRecordService(MedicalRecordPort medicalRecordPort) {
+        this.medicalRecordPort = medicalRecordPort;
+    }
+
+    public void createMedicalRecord(MedicalRecord medicalRecord) {
+        medicalRecordPort.saveMedicalRecord(medicalRecord);
+    }
+
+    public List<MedicalRecord> getAllMedicalRecords() {
+        return medicalRecordPort.getAllMedicalRecords();
+    }
+
+    public MedicalRecord getMedicalRecordById(long medicalRecordId) {
+        return medicalRecordPort.findById(medicalRecordId);
+    }
 }

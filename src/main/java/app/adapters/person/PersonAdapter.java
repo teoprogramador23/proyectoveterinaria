@@ -1,14 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.adapters.person;
 
-/**
- *
- * @author Mat3o
- */
-public class PersonAdapter {
+import app.domain.models.Person;
+import app.ports.PersonPort;
 
+public class PersonAdapter implements PersonPort {
+    private PersonRepository personRepository;
+
+    @Override
+    public void savePerson(Person person) {
+        PersonEntity entity = new PersonEntity(person);
+        personRepository.save(entity);
+        person.setPersonId(entity.getPersonId());
+    }
+
+    @Override
+    public Person findByDocument(long document) {
+        return personRepository.findByDocument(document).toModel();
+    }
 }

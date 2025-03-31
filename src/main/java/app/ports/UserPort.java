@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.ports;
 
-/**
- *
- * @author Mat3o
- */
-public class UserPort {
+import app.domain.models.User;
 
+public interface UserPort {
+    void saveUser(User user);
+    User findByUsername(String username);
 }

@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.ports;
 
-/**
- *
- * @author Mat3o
- */
-public class InvoicePort {
+import app.domain.models.Invoice;
+import java.util.List;
 
+public interface InvoicePort {
+    void saveInvoice(Invoice invoice);
+    List<Invoice> getAllInvoices();
+    Invoice findById(long invoiceId);
 }

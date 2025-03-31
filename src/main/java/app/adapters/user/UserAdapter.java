@@ -1,14 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.adapters.user;
 
-/**
- *
- * @author Mat3o
- */
-public class UserAdapter {
+import app.domain.models.User;
+import app.ports.UserPort;
 
+public class UserAdapter implements UserPort {
+    private UserRepository userRepository;
+
+    @Override
+    public void saveUser(User user) {
+        UserEntity entity = new UserEntity(user);
+        userRepository.save(entity);
+        user.setUserId(entity.getUserId());
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).toModel();
+    }
 }

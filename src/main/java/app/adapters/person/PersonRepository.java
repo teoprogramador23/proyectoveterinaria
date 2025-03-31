@@ -1,14 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package app.adapters.person;
 
-/**
- *
- * @author Mat3o
- */
-public class PersonRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
+public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
+    PersonEntity findByDocument(long document);
 }
