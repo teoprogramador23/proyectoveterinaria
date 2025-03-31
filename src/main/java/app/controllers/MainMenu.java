@@ -2,65 +2,146 @@ import app.controllers;
 
 public class MainMenu {
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+@SpringBootApplication
+public class MenuApplication implements CommandLineRunner {
+
+    private static final Logger logger = LoggerFactory.getLogger(MenuApplication.class);
+    private final Scanner scanner = new Scanner(System.in);
+    private final Map<String, String> users = new HashMap<>();  // Simulated user database (email, password)
+    private String authenticatedUser = null;  // Stores the logged-in user's email
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int option;
+        SpringApplication.run(MenuApplication.class, args);
+    }
 
-        do {
-            System.out.println("---- Menú Principal ----");
-            System.out.println("1. Iniciar sesión");
-            System.out.println("2. Registrarse");
-            System.out.println("3. Solicitar medicamentos con certificado del veterinario");
-            System.out.println("4. Salir");
-            System.out.print("Seleccione una opción: ");
-            option = scanner.nextInt();
-            scanner.nextLine();  
-
-            switch (option) {
-                case 1:
-                    logIn(scanner);
-                    break;
-                case 2:
-                    register(scanner);
-                    break;
-                case 3:
-                    requestMedications(scanner);
-                    break;
-                case 4:
-                    System.out.println("Saliendo del sistema...");
-                    break;
-                default:
-                    System.out.println("Opción no válida. Intente nuevamente.");
+    @Override
+    public void run(String... args) {
+        while (true) {
+            if (authenticatedUser == null) {
+                showInitialMenu();
+                int option = readOption();
+                processInitialOption(option);
+            } else {
+                showMainMenu();
+                int option = readOption();
+                processMainOption(option);
             }
-        } while (option != 4);
+        }
     }
 
-    private static void logIn(Scanner scanner) {
-        System.out.println("Iniciar sesión");
-        System.out.print("Ingrese su correo: ");
+    private void showInitialMenu() {
+        System.out.println("\n=== INITIAL MENU ===");
+        System.out.println("1. Register");
+        System.out.println("2. Log in");
+        System.out.println("3. Exit");
+        System.out.print("Select an option: ");
+    }
+
+    private void showMainMenu() {
+        System.out.println("\n=== MAIN MENU === (User: " + authenticatedUser + ")");
+        System.out.println("1. Register pet");
+        System.out.println("2. Request medication");
+        System.out.println("3. Log out");
+        System.out.print("Select an option: ");
+    }
+
+    private int readOption() {
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            logger.warn("Invalid input, please enter a number.");
+            return -1;
+        }
+    }
+
+    private void processInitialOption(int option) {
+        switch (option) {
+            case 1 -> registerUser();
+            case 2 -> logIn();
+            case 3 -> {
+                logger.info("Exiting system.");
+                System.exit(0);
+            }
+            default -> logger.warn("Invalid option. Please try again.");
+        }
+    }
+
+    private void processMainOption(int option) {
+        switch (option) {
+            case 1 -> registerPet();
+            case 2 -> requestMedication();
+            case 3 -> logOut();
+            default -> logger.warn("Invalid option. Please try again.");
+        }
+    }
+
+    private void registerUser() {
+        System.out.print("Enter your email: ");
         String email = scanner.nextLine();
-        System.out.print("Ingrese su contraseña: ");
+        if (users.containsKey(email)) {
+            System.out.println("User already registered.");
+            return;
+        }
+        System.out.print("Enter a password: ");
+        String password = scanner.nextLine();
+        users.put(email, password);
+        logger.info("New user registered: {}", email);
+        System.out.println("Registration successful. You can now log in.");
+    }
+
+    private void logIn() {
+        System.out.print("Enter your email: ");
+        String email = scanner.nextLine();
+        System.out.print("Enter your password: ");
         String password = scanner.nextLine();
         
-        System.out.println("Bienvenido, " + email);
+        if (users.containsKey(email) && users.get(email).equals(password)) {
+            authenticatedUser = email;
+            logger.info("User logged in: {}", email);
+            System.out.println("Login successful. Welcome.");
+        } else {
+            logger.warn("Failed login attempt for {}", email);
+            System.out.println("Incorrect email or password.");
+        }
     }
 
-    private static void register(Scanner scanner) {
-        System.out.println("Registrarse");
-        System.out.print("Ingrese su nombre completo: ");
+    private void registerPet() {
+        System.out.print("Enter pet's name: ");
         String name = scanner.nextLine();
-        System.out.print("Ingrese su correo: ");
-        String email = scanner.nextLine();
-        System.out.print("Ingrese su contraseña: ");
-        String password = scanner.nextLine();
-        
-        System.out.println("Usuario registrado con éxito.");
+        System.out.print("Enter pet's species: ");
+        String species = scanner.nextLine();
+        logger.info("Pet registered: User={}, Name={}, Species={}", authenticatedUser, name, species);
+        System.out.println("Pet registered successfully.");
     }
 
-    private static void requestMedications(Scanner scanner) {
-        System.out.println("Solicitar medicamentos");
-        System.out.print("Ingrese la receta del veterinario: ");
-        String prescription = scanner.nextLine();
-        System.out.println("Medicamento solicitado con éxito.");
+    private void requestMedication() {
+        System.out.print("Enter pet's name: ");
+        String petName = scanner.nextLine();
+        System.out.print("Enter the medication name: ");
+        String medication = scanner.nextLine();
+        System.out.print("Enter quantity: ");
+        int quantity;
+
+        try {
+            quantity = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            logger.warn("Invalid quantity, must be a number.");
+            System.out.println("Error: Quantity must be a number.");
+            return;
+        }
+
+        logger.info("Medication request: User={}, Pet={}, Medication={}, Quantity={}",
+                authenticatedUser, petName, medication, quantity);
+        System.out.println("Request registered successfully.");
+    }
+
+    private void logOut() {
+        logger.info("User logged out: {}", authenticatedUser);
+        System.out.println("Session closed. See you soon.");
+        authenticatedUser = null;
     }
 }

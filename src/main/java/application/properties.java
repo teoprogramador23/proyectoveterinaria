@@ -1,14 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-package application;
-
-/**
- *
- * @author ESTUDIANTE
- */
-public class properties {
-
-}
+spring.application.name=app
+spring.datasource.url=jdbc:mysql://localhost:3306/proyectoveterinaria
+spring.datasource.username=root
+spring.datasource.password=
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+server.port=8081
