@@ -3,12 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package app.ports;
+package app.adapters.user;
 
 /**
  *
  * @author Mat3o
  */
-public class UserPort {
+public class UserEntity {
 
 }

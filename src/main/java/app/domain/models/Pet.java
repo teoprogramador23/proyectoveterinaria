@@ -1,26 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 package app.domain.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
+/**
+ *
+ * @author Mat3o
+ */
 public class Pet {
-    private long petId;
-    private String name;
-    private String species;
-    private String breed;
-    private int age;
-    private Person owner;
 
-    public Pet(long petId, String name, String species, String breed, int age, Person owner) {
-        this.petId = petId;
-        this.name = name;
-        this.species = species;
-        this.breed = breed;
-        this.age = age;
-        this.owner = owner;
-    }
 }

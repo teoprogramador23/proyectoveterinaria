@@ -1,9 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 package app.ports;
 
-import app.domain.models.Person;
+/**
+ *
+ * @author Mat3o
+ */
+public class PersonPort {
 
-public interface PersonPort {
-   boolean existsPerson(long document);
-   void savePerson(Person person);
-   Person findByDocument(long document);
 }

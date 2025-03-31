@@ -1,10 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 package app.ports;
 
-import app.domain.models.MedicalRecord;
-import app.domain.models.Pet;
-import java.util.List;
+/**
+ *
+ * @author Mat3o
+ */
+public class MedicalRecordPort {
 
-public interface MedicalRecordPort {
-    void saveMedicalRecord(MedicalRecord medicalRecord);
-    List<MedicalRecord> findRecordsByPet(Pet pet);
 }

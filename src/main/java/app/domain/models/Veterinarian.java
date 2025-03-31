@@ -1,21 +1,14 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
 package app.domain.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@NoArgsConstructor
+/**
+ *
+ * @author Mat3o
+ */
 public class Veterinarian {
-    private long veterinarianId;
-    private String name;
-    private String licenseNumber;
 
-    public Veterinarian(long veterinarianId, String name, String licenseNumber) {
-        this.veterinarianId = veterinarianId;
-        this.name = name;
-        this.licenseNumber = licenseNumber;
-    }
 }
-
