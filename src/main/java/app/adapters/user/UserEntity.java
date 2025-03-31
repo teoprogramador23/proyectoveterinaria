@@ -1,4 +1,4 @@
-package app.adapters.user;
+package app.adapters.user.entity;
 
 import app.domain.models.User;
 import jakarta.persistence.*;
@@ -7,28 +7,29 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "user")
-@Getter
+@Table(name = "users")
 @Setter
+@Getter
 @NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userId;
-
-    private String username;
+    private Long userId;
+    
+    @Column(unique = true, nullable = false)
+    private String userName;
+    
+    @Column(nullable = false)
     private String password;
+    
+    @Column(nullable = false)
     private String role;
 
     public UserEntity(User user) {
         this.userId = user.getUserId();
-        this.username = user.getUsername();
+        this.userName = user.getUserName();
         this.password = user.getPassword();
         this.role = user.getRole();
-    }
-
-    public User toModel() {
-        return new User(userId, username, password, role);
     }
 }
 
