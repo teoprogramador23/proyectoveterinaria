@@ -1,30 +1,45 @@
 package app.domain.services;
 
-import app.domain.models.Admin;
-import app.ports.AdminPort;
+import app.domain.models.Partner;
+import app.domain.models.User;
+import app.ports.PartnerPort;
 import app.ports.UserPort;
+import java.util.List;
 
 public class AdminService {
-    private final AdminPort adminPort;
     private final UserPort userPort;
+    private final PartnerPort partnerPort;
 
-    public AdminService(AdminPort adminPort, UserPort userPort) {
-        this.adminPort = adminPort;
+    public AdminService(UserPort userPort, PartnerPort partnerPort) {
         this.userPort = userPort;
+        this.partnerPort = partnerPort;
     }
 
-    public void registerAdmin(Admin admin) throws Exception {
-        if (userPort.existUserName(admin.getUserName())) {
-            throw new Exception("Username already exists.");
+    public void manageUsers() {
+        List<User> users = userPort.getAllUsers();
+        System.out.println("Lista de usuarios:");
+        for (User user : users) {
+            System.out.println(user.getUserName() + " - " + user.getRole());
         }
-        adminPort.registerAdmin(admin);
     }
 
-    public void approveMedicationRequest(Long requestId) {
-        adminPort.approveMedicationRequest(requestId);
+    public void approveMedicationRequests(MedicationService medicationService) {
+        List<MedicationRequest> pendingRequests = medicationService.getPendingRequests();
+        if (pendingRequests.isEmpty()) {
+            System.out.println("No hay solicitudes pendientes.");
+            return;
+        }
+        for (MedicationRequest request : pendingRequests) {
+            medicationService.approveRequest(request.getRequestId());
+        }
     }
 
-    public void promotePartnerToVIP(Long partnerId) {
-        adminPort.promotePartnerToVIP(partnerId);
+    public void promoteVipPartners() {
+        List<Partner> pendingPartners = partnerPort.getByStatusPending();
+        for (Partner partner : pendingPartners) {
+            partner.setStatus("VIP");
+            partnerPort.updateStatus(partner);
+            System.out.println("Socio promovido a VIP: " + partner.getUserId());
+        }
     }
 }
